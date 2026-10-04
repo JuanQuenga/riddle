@@ -14,11 +14,12 @@ Install Go 1.25 or newer on your computer and run:
 
 This tests the companion and builds a tablet binary plus a native sign-in helper. If you build a new AppLoad bundle afterward, `scripts/make-bundle.sh` includes the companion automatically. To add it to an existing Riddle installation:
 
-Back up your existing Riddle folder before running the copy commands below. The companion does not fix display compatibility; use a display library that supports your firmware.
+Close The Diary and stop its takeover service before updating. Back up your existing Riddle folder before running the copy commands below. The companion does not fix display compatibility; use a display library that supports your firmware.
 
 ```sh
 scp -O tools/chatgpt/dist/riddle-chatgpt-linux-arm64 root@10.11.99.1:/home/root/xovi/exthome/appload/riddle/riddle-chatgpt
-scp -O scripts/riddle-takeover.sh root@10.11.99.1:/home/root/xovi/exthome/appload/riddle/riddle-takeover.sh
+scp -O scripts/riddle-takeover.sh root@10.11.99.1:/home/root/xovi/exthome/appload/riddle/riddle-takeover.sh.new
+ssh root@10.11.99.1 'chmod 755 /home/root/xovi/exthome/appload/riddle/riddle-takeover.sh.new; mv /home/root/xovi/exthome/appload/riddle/riddle-takeover.sh.new /home/root/xovi/exthome/appload/riddle/riddle-takeover.sh'
 ssh root@10.11.99.1 'chmod 755 /home/root/xovi/exthome/appload/riddle/riddle-chatgpt'
 ```
 

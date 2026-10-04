@@ -5,6 +5,11 @@
 # Exit the diary: 5-finger tap or SIGTERM; the power button sleeps/wakes it. Escape hatch if
 # anything wedges: ssh rm 'systemctl start xochitl'.
 
+# Keep one owner of the display. Reject a duplicate before installing cleanup
+# traps, so it cannot restart xochitl beneath an already-running diary.
+exec 9>/run/riddle-takeover.lock
+flock -n 9 || { echo "The diary is already open" >&2; exit 1; }
+
 restore() {
     if [ -n "${CHATGPT_PID:-}" ]; then
         kill "$CHATGPT_PID" 2>/dev/null || true
